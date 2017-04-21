@@ -1,18 +1,18 @@
 " Copyright 2001-2017 Richard Russon.
 
-let s:prefix_comment	= '--> '
-let s:prefix_function	= '●'
-" let s:prefix_struct	= '⏥'
-let s:prefix_struct	= '⧋'
-let s:prefix_enum	= '☰'
-let s:abbreviation     = '...'
+let s:prefix_comment    = '--> '
+let s:prefix_function   = '●'
+" let s:prefix_struct     = '⏥'
+let s:prefix_struct     = '⧋'
+let s:prefix_enum       = '☰'
+let s:abbreviation      = '...'
 
-let s:prefix_copyright	= '© Copyright'
+let s:prefix_copyright  = '© Copyright'
 
-let s:function_method	= '●'
-let s:function_local	= '○'
-" let s:function_static	= '∗'
-let s:function_static	= '○'
+let s:function_method   = '●'
+let s:function_local    = '○'
+" let s:function_static   = '∗'
+let s:function_static   = '○'
 
 " TODO:
 "     count the number of function parameters (@arg)
@@ -159,7 +159,7 @@ function! s:FoldInclude (line, count)
 endfunction
 
 
-function! cpp_fold#FoldLevel (lnum)
+function! neomutt_fold#FoldLevel (lnum)
 	let prev = getline (a:lnum - 1)
 	let line = getline (a:lnum)
 	let next = getline (a:lnum + 1)
@@ -248,7 +248,7 @@ function! cpp_fold#FoldLevel (lnum)
 	return level
 endfunction
 
-function! cpp_fold#FoldText (lnum)
+function! neomutt_fold#FoldText (lnum)
 	let prev = getline (a:lnum - 1)
 	let line = getline (a:lnum)
 	let next = getline (a:lnum + 1)
@@ -290,3 +290,4 @@ function! cpp_fold#FoldText (lnum)
 	return s:FoldFunction (a:lnum)
 endfunction
 
+source /home/mutt/.vim/fold/deffold.vim
