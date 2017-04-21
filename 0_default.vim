@@ -67,4 +67,3 @@ highlight cppNumber          ctermfg=none        guifg=NONE
 syntax match rar "// *RAR.*"
 highlight rar ctermfg=207
 
-source /home/mutt/fold/neomutt_fold.vim
