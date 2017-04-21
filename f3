@@ -1,0 +1,536 @@
+static const char *alias_format_str(char *dest, size_t destlen, size_t col, int cols,
+                                    char op, const char *src, const char *fmt,
+                                    const char *ifstring, const char *elsestring,
+                                    unsigned long data, format_flag flags)
+
+int mutt_bcache_list(body_cache_t *bcache,
+                     int (*want_id)(const char *id, body_cache_t *bcache, void *data),
+                     void *data)
+
+static const char *folder_format_str(char *dest, size_t destlen, size_t col, int cols,
+                                     char op, const char *src, const char *fmt,
+                                     const char *ifstring, const char *elsestring,
+                                     unsigned long data, format_flag flags)
+
+static const char *newsgroup_format_str(char *dest, size_t destlen, size_t col, int cols,
+                                        char op, const char *src, const char *fmt,
+                                        const char *ifstring, const char *elsestring,
+                                        unsigned long data, format_flag flags)
+
+static void add_folder(MUTTMENU *m, struct browser_state *state, const char *name,
+                       const char *desc, const struct stat *s, BUFFY *b, void *data)
+
+static int examine_directory(MUTTMENU *menu, struct browser_state *state,
+                             char *d, const char *prefix)
+
+static void init_menu(struct browser_state *state, MUTTMENU *menu, char *title,
+                      size_t titlelen, int buffy)
+
+static int buffy_maildir_check_dir(BUFFY *mailbox, const char *dir_name,
+                                   int check_new, int check_stats)
+
+size_t mutt_iconv(iconv_t cd, ICONV_CONST char **inbuf, size_t *inbytesleft,
+                  char **outbuf, size_t *outbytesleft,
+                  ICONV_CONST char **inrepls, const char *outrepl)
+
+static int _mutt_parse_uncolor(BUFFER *buf, BUFFER *s, unsigned long data,
+                               BUFFER *err, short parse_uncolor)
+
+static int add_pattern(COLOR_LINE **top, const char *s, int sensitive, int fg,
+                       int bg, int attr, BUFFER *err, int is_index, int match)
+
+static int _mutt_parse_color(BUFFER *buf, BUFFER *s, BUFFER *err,
+                             parser_callback_t callback, short dry_run)
+
+static int _mutt_pipe_message(HEADER *h, char *cmd, int decode, int print,
+                              int split, char *sep)
+
+static const char *compose_format_str(char *buf, size_t buflen, size_t col, int cols,
+                                      char op, const char *src, const char *prefix,
+                                      const char *ifstring, const char *elsestring,
+                                      unsigned long data, format_flag flags)
+
+static void compose_status_line(char *buf, size_t buflen, size_t col, int cols,
+                                MUTTMENU *menu, const char *p)
+
+int mutt_compose_menu(HEADER *msg, /* structure for new message */
+                      char *fcc,   /* where to save a copy of the message */
+                      size_t fcclen, HEADER *cur, /* current message */
+                      int flags)
+
+static const char *cb_format_str(char *dest, size_t destlen, size_t col, int cols,
+                                 char op, const char *src, const char *fmt,
+                                 const char *ifstring, const char *elsestring,
+                                 unsigned long data, format_flag flags)
+
+int mutt_copy_hdr(FILE *in, FILE *out, LOFF_T off_start, LOFF_T off_end,
+                  int flags, const char *prefix)
+
+static int _mutt_append_message(CONTEXT *dest, FILE *fpin, CONTEXT *src,
+                                HEADER *hdr, BODY *body, int flags, int chflags)
+
+const char *crypt_get_fingerprint_or_id(char *p, const char **pphint,
+                                        const char **ppl, const char **pps)
+
+static char *encrypt_gpgme_object(gpgme_data_t plaintext, gpgme_key_t *rset,
+                                  int use_smime, int combined_signed)
+
+static int show_sig_summary(unsigned long sum, gpgme_ctx_t ctx, gpgme_key_t key,
+                            int idx, STATE *s, gpgme_signature_t sig)
+
+static void print_smime_keyinfo(const char *msg, gpgme_signature_t sig,
+                                gpgme_key_t key, STATE *s)
+
+static const char *crypt_entry_fmt(char *dest, size_t destlen, size_t col, int cols,
+                                   char op, const char *src, const char *prefix,
+                                   const char *ifstring, const char *elsestring,
+                                   unsigned long data, format_flag flags)
+
+static crypt_key_t *crypt_select_key(crypt_key_t *keys, ADDRESS *p, const char *s,
+                                     unsigned int app, int *forced_valid)
+
+static crypt_key_t *crypt_getkeybyaddr(ADDRESS *a, short abilities, unsigned int app,
+                                       int *forced_valid, int oppenc_mode)
+
+static crypt_key_t *crypt_ask_for_key(char *tag, char *whatfor, short abilities,
+                                      unsigned int app, int *forced_valid)
+
+int _mutt_get_field(const char *field, char *buf, size_t buflen, int complete,
+                    int multiple, char ***files, int *numfiles)
+
+void mutt_progress_init(progress_t *progress, const char *msg,
+                        unsigned short flags, unsigned short inc, long size)
+
+int _mutt_enter_fname(const char *prompt, char *buf, size_t blen, int buffy,
+                      int multiple, char ***files, int *numfiles, int flags)
+
+void mutt_format_string(char *dest, size_t destlen, int min_width, int max_width,
+                        int justify, char m_pad_char, const char *s, size_t n, int arboreal)
+
+static void format_s_x(char *dest, size_t destlen, const char *prefix,
+                       const char *s, int arboreal)
+
+static int main_change_folder(MUTTMENU *menu, int op, char *buf, size_t bufsz,
+                              int *oldcount, int *index_hint, int flags)
+
+static char **be_snarf_data(FILE *f, char **buf, int *bufmax, int *buflen,
+                            LOFF_T offset, int bytes, int prefix)
+
+static char **be_include_messages(char *msg, char **buf, int *bufmax,
+                                  int *buflen, int pfx, int inc_hdrs)
+
+int _mutt_enter_string(char *buf, size_t buflen, int col, int flags, int multiple,
+                       char ***files, int *numfiles, ENTER_STATE *state)
+
+pid_t mutt_create_filter_fd(const char *cmd, FILE **in, FILE **out, FILE **err,
+                            int fdin, int fdout, int fderr)
+
+static void union_hash_delete(HASH *table, union hash_key key, const void *data,
+                              void (*destroy)(void *))
+
+void int_hash_delete(HASH *table, unsigned int intkey, const void *data,
+                     void (*destroy)(void *))
+
+static unsigned char *dump_char_size(char *c, unsigned char *d, int *off,
+                                     ssize_t size, int convert)
+
+int mutt_hcache_store(header_cache_t *h, const char *key, size_t keylen,
+                      HEADER *header, unsigned int uidvalidity)
+
+int mutt_hcache_store_raw(header_cache_t *h, const char *key, size_t keylen,
+                          void *data, size_t dlen)
+
+static int hcache_kyotocabinet_store(void *ctx, const char *key, size_t keylen,
+                                     void *data, size_t dlen)
+
+static int hcache_tokyocabinet_store(void *ctx, const char *key, size_t keylen,
+                                     void *data, size_t dlen)
+
+static const char *hdr_format_str(char *dest, size_t destlen, size_t col, int cols,
+                                  char op, const char *src, const char *prefix,
+                                  const char *ifstring, const char *elsestring,
+                                  unsigned long data, format_flag flags)
+
+void _mutt_make_string(char *dest, size_t destlen, const char *s, CONTEXT *ctx,
+                       HEADER *hdr, format_flag flags)
+
+void mutt_make_string_info(char *dst, size_t dstlen, int cols, const char *s,
+                           struct hdr_format_info *hfi, format_flag flags)
+
+static void dump_unbound(FILE *f, const struct binding_t *funcs,
+                         struct keymap_t *map, struct keymap_t *aux)
+
+static void imap_add_folder(char delim, char *folder, int noselect, int noinferiors,
+                            struct browser_state *state, short isparent)
+
+static int browse_add_list_result(IMAP_DATA *idata, const char *cmd,
+                                  struct browser_state *state, short isparent)
+
+static void imap_set_flag(IMAP_DATA *idata, int aclbit, int flag,
+                          const char *str, char *flags, size_t flsize)
+
+static int imap_make_msg_set(IMAP_DATA *idata, BUFFER *buf, int flag,
+                             int changed, int invert, int *pos)
+
+int imap_exec_msgset(IMAP_DATA *idata, const char *pre, const char *post,
+                     int flag, int changed, int invert)
+
+static int add_to_replace_list(REPLACE_LIST **list, const char *pat,
+                               const char *templ, BUFFER *err)
+
+static int parse_group_context(group_context_t **ctx, BUFFER *buf, BUFFER *s,
+                               unsigned long data, BUFFER *err)
+
+void safe_free(void *ptr) /* __SAFE_FREE_CHECKED__ */
+
+char *mutt_concatn_path(char *dst, size_t dstlen, const char *dir,
+                        size_t dirlen, const char *fname, size_t fnamelen)
+
+static void mhs_write_one_sequence(FILE *fp, struct mh_sequences *mhs, short f,
+                                   const char *tag)
+
+static int maildir_parse_dir(CONTEXT *ctx, struct maildir ***last,
+                             const char *subdir, int *count, progress_t *progress)
+
+static struct maildir *maildir_merge_lists(struct maildir *left, struct maildir *right,
+                                           int (*cmp)(struct maildir *, struct maildir *))
+
+static struct maildir *maildir_ins_sort(struct maildir *list,
+                                        int (*cmp)(struct maildir *, struct maildir *))
+
+static struct maildir *maildir_sort(struct maildir *list, size_t len,
+                                    int (*cmp)(struct maildir *, struct maildir *))
+
+static FILE *_maildir_open_find_message(const char *folder, const char *unique,
+                                        const char *subfolder, char **newname)
+
+void _mutt_mktemp(char *s, size_t slen, const char *prefix, const char *suffix,
+                  const char *src, int line)
+
+int mutt_check_overwrite(const char *attname, const char *path, char *fname,
+                         size_t flen, int *append, char **directory)
+
+void mutt_FormatString(char *dest,     /* output buffer */
+                       size_t destlen, /* output buffer len */
+                       size_t col, /* starting column (nonzero when called recursively) */
+                       int cols,           /* maximum columns */
+                       const char *src,    /* template string */
+                       format_t *callback, /* callback for processing */
+                       unsigned long data, /* callback data */
+                       format_flag flags)  /* callback flags */
+
+static int rename_filename(struct nm_ctxdata *data, const char *old,
+                           const char *new, HEADER *h)
+
+size_t mutt_sasl_plain_msg(char *buf, size_t buflen, const char *cmd,
+                           const char *authz, const char *user, const char *pass)
+
+static bool compare_certificates(X509 *cert, X509 *peercert,
+                                 unsigned char *peermd, unsigned int peermdlen)
+
+static void tls_fingerprint(gnutls_digest_algorithm_t algo, char *s, int l,
+                            const gnutls_datum_t *data)
+
+static int tls_check_preauth(const gnutls_datum_t *certdata,
+                             gnutls_certificate_status_t certstat, const char *hostname,
+                             int chainidx, int *certerr, int *savedcert)
+
+static int tls_check_one_certificate(const gnutls_datum_t *certdata,
+                                     gnutls_certificate_status_t certstat,
+                                     const char *hostname, int idx, int len)
+
+const char *nntp_format_str(char *dest, size_t destlen, size_t col, int cols, char op,
+                            const char *src, const char *fmt, const char *ifstring,
+                            const char *elsestring, unsigned long data, format_flag flags)
+
+static int nntp_fetch_lines(NNTP_DATA *nntp_data, char *query, size_t qlen,
+                            char *msg, int (*funct)(char *, void *), void *data)
+
+static void resolve_color(struct line_t *lineInfo, int n, int cnt, int flags,
+                          int special, ansi_attr *a)
+
+static void shift_class_colors(struct q_class_t *QuoteList,
+                               struct q_class_t *new_class, int index, int *q_level)
+
+static struct q_class_t *classify_quote(struct q_class_t **QuoteList, const char *qptr,
+                                        int length, int *force_redraw, int *q_level)
+
+static void resolve_types(char *buf, char *raw, struct line_t *lineInfo, int n,
+                          int last, struct q_class_t **QuoteList, int *q_level,
+                          int *force_redraw, int q_classify)
+
+static int fill_buffer(FILE *f, LOFF_T *last_pos, LOFF_T offset, unsigned char **buf,
+                       unsigned char **fmt, size_t *blen, int *buf_ready)
+
+static int format_line(struct line_t **lineInfo, int n, unsigned char *buf,
+                       int flags, ansi_attr *pa, int cnt, int *pspace, int *pvch,
+                       int *pcol, int *pspecial, mutt_window_t *pager_window)
+
+static int display_line(FILE *f, LOFF_T *last_pos, struct line_t **lineInfo,
+                        int n, int *last, int *max, int flags,
+                        struct q_class_t **QuoteList, int *q_level, int *force_redraw,
+                        regex_t *SearchRE, mutt_window_t *pager_window)
+
+int mutt_parse_rfc822_line(ENVELOPE *e, HEADER *hdr, char *line, char *p,
+                           short user_hdrs, short weed, short do_2047, LIST **lastp)
+
+static const char *parse_date_range(const char *pc, struct tm *min, struct tm *max,
+                                    int haveMin, struct tm *baseMin, BUFFER *err)
+
+static bool perform_and(pattern_t *pat, pattern_exec_flag flags, CONTEXT *ctx,
+                        HEADER *hdr, pattern_cache_t *cache)
+
+static int perform_or(struct pattern_t *pat, pattern_exec_flag flags,
+                      CONTEXT *ctx, HEADER *hdr, pattern_cache_t *cache)
+
+static int match_threadcomplete(struct pattern_t *pat, pattern_exec_flag flags,
+                                CONTEXT *ctx, THREAD *t, int left, int up,
+                                int right, int down)
+
+int mutt_pattern_exec(struct pattern_t *pat, pattern_exec_flag flags,
+                      CONTEXT *ctx, HEADER *h, pattern_cache_t *cache)
+
+static const char *_mutt_fmt_pgp_command(char *dest, size_t destlen, size_t col,
+                                         int cols, char op, const char *src,
+                                         const char *prefix, const char *ifstring,
+                                         const char *elsestring,
+                                         unsigned long data, format_flag flags)
+
+static void mutt_pgp_command(char *d, size_t dlen,
+                             struct pgp_command_context *cctx, const char *fmt)
+
+static pid_t pgp_invoke(FILE **pgpin, FILE **pgpout, FILE **pgperr, int pgpinfd,
+                        int pgpoutfd, int pgperrfd, short need_passphrase,
+                        const char *fname, const char *sig_fname,
+                        const char *signas, const char *ids, const char *format)
+
+pid_t pgp_invoke_decode(FILE **pgpin, FILE **pgpout, FILE **pgperr, int pgpinfd,
+                        int pgpoutfd, int pgperrfd, const char *fname, short need_passphrase)
+
+pid_t pgp_invoke_verify(FILE **pgpin, FILE **pgpout, FILE **pgperr, int pgpinfd,
+                        int pgpoutfd, int pgperrfd, const char *fname, const char *sig_fname)
+
+pid_t pgp_invoke_decrypt(FILE **pgpin, FILE **pgpout, FILE **pgperr, int pgpinfd,
+                         int pgpoutfd, int pgperrfd, const char *fname)
+
+pid_t pgp_invoke_sign(FILE **pgpin, FILE **pgpout, FILE **pgperr, int pgpinfd,
+                      int pgpoutfd, int pgperrfd, const char *fname)
+
+pid_t pgp_invoke_encrypt(FILE **pgpin, FILE **pgpout, FILE **pgperr,
+                         int pgpinfd, int pgpoutfd, int pgperrfd,
+                         const char *fname, const char *uids, int sign)
+
+pid_t pgp_invoke_traditional(FILE **pgpin, FILE **pgpout, FILE **pgperr,
+                             int pgpinfd, int pgpoutfd, int pgperrfd,
+                             const char *fname, const char *uids, int flags)
+
+pid_t pgp_invoke_export(FILE **pgpin, FILE **pgpout, FILE **pgperr, int pgpinfd,
+                        int pgpoutfd, int pgperrfd, const char *uids)
+
+pid_t pgp_invoke_verify_key(FILE **pgpin, FILE **pgpout, FILE **pgperr, int pgpinfd,
+                            int pgpoutfd, int pgperrfd, const char *uids)
+
+pid_t pgp_invoke_list_keys(FILE **pgpin, FILE **pgpout, FILE **pgperr, int pgpinfd,
+                           int pgpoutfd, int pgperrfd, pgp_ring_t keyring, LIST *hints)
+
+static const char *pgp_entry_fmt(char *dest, size_t destlen, size_t col, int cols,
+                                 char op, const char *src, const char *prefix,
+                                 const char *ifstring, const char *elsestring,
+                                 unsigned long data, format_flag flags)
+
+int pop_fetch_data(POP_DATA *pop_data, char *query, progress_t *progressbar,
+                   int (*funct)(char *, void *), void *data)
+
+static const char *query_format_str(char *dest, size_t destlen, size_t col, int cols,
+                                    char op, const char *src, const char *fmt,
+                                    const char *ifstring, const char *elsestring,
+                                    unsigned long data, format_flag flags)
+
+const char *mutt_attach_fmt(char *dest, size_t destlen, size_t col, int cols,
+                            char op, const char *src, const char *prefix,
+                            const char *ifstring, const char *elsestring,
+                            unsigned long data, format_flag flags)
+
+static void pipe_attachment_list(char *command, FILE *fp, int tag, BODY *top,
+                                 int filter, STATE *state)
+
+static void update_attach_index(BODY *cur, ATTACHPTR ***idxp, short *idxlen,
+                                short *idxmax, MUTTMENU *menu)
+
+int mutt_attach_display_loop(MUTTMENU *menu, int op, FILE *fp, HEADER *hdr, BODY *cur,
+                             ATTACHPTR ***idxp, short *idxlen, short *idxmax, int recv)
+
+static BODY **copy_problematic_attachments(FILE *fp, BODY **last, ATTACHPTR **idx,
+                                           short idxlen, short force)
+
+static void attach_forward_bodies(FILE *fp, HEADER *hdr, ATTACHPTR **idx,
+                                  short idxlen, BODY *cur, short nattach, int flags)
+
+static void attach_forward_msgs(FILE *fp, HEADER *hdr, ATTACHPTR **idx,
+                                short idxlen, BODY *cur, int flags)
+
+void mutt_attach_forward(FILE *fp, HEADER *hdr, ATTACHPTR **idx, short idxlen,
+                         BODY *cur, int flags)
+
+static int attach_reply_envelope_defaults(ENVELOPE *env, ATTACHPTR **idx,
+                                          short idxlen, HEADER *parent, int flags)
+
+void mutt_attach_reply(FILE *fp, HEADER *hdr, ATTACHPTR **idx, short idxlen,
+                       BODY *cur, int flags)
+
+static void mix_screen_coordinates(REMAILER **type2_list, struct coord **coordsp,
+                                   MIXCHAIN *chain, int i)
+
+static void mix_redraw_ce(REMAILER **type2_list, struct coord *coords,
+                          MIXCHAIN *chain, int i, short selected)
+
+static void mix_redraw_chain(REMAILER **type2_list, struct coord *coords,
+                             MIXCHAIN *chain, int cur)
+
+static const char *mix_entry_fmt(char *dest, size_t destlen, size_t col, int cols,
+                                 char op, const char *src, const char *prefix,
+                                 const char *ifstring, const char *elsestring,
+                                 unsigned long data, format_flag flags)
+
+static int rfc1524_mailcap_parse(BODY *a, char *filename, char *type,
+                                 rfc1524_entry *entry, int opt)
+
+static size_t convert_string(ICONV_CONST char *f, size_t flen, const char *from,
+                             const char *to, char **t, size_t *tlen)
+
+char *mutt_choose_charset(const char *fromcode, const char *charsets, char *u,
+                          size_t ulen, char **d, size_t *dlen)
+
+static size_t try_block(ICONV_CONST char *d, size_t dlen, const char *fromcode,
+                        const char *tocode, encoder_t *encoder, size_t *wlen)
+
+static size_t encode_block(char *s, char *d, size_t dlen, const char *fromcode,
+                           const char *tocode, encoder_t encoder)
+
+static size_t choose_block(char *d, size_t dlen, int col, const char *fromcode,
+                           const char *tocode, encoder_t *encoder, size_t *wlen)
+
+static int rfc2047_encode(ICONV_CONST char *d, size_t dlen, int col, const char *fromcode,
+                          const char *charsets, char **e, size_t *elen, char *specials)
+
+static const char *parse_mailboxdomain(const char *s, const char *nonspecial,
+                                       char *mailbox, size_t *mailboxlen,
+                                       size_t mailboxmax, char *comment,
+                                       size_t *commentlen, size_t commentmax)
+
+static const char *parse_address(const char *s, char *token, size_t *tokenlen,
+                                 size_t tokenmax, char *comment, size_t *commentlen,
+                                 size_t commentmax, ADDRESS *addr)
+
+static const char *parse_route_addr(const char *s, char *comment, size_t *commentlen,
+                                    size_t commentmax, ADDRESS *addr)
+
+static const char *parse_addr_spec(const char *s, char *comment, size_t *commentlen,
+                                   size_t commentmax, ADDRESS *addr)
+
+static void add_addrspec(ADDRESS **top, ADDRESS **last, const char *phrase,
+                         char *comment, size_t *commentlen, size_t commentmax)
+
+int safe_free(void **p) /* __SAFE_FREE_CHECKED__ */
+
+static int generate_body(FILE *tempfp, /* stream for outgoing message */
+                         HEADER *msg,  /* header for outgoing message */
+                         int flags,    /* compose mode */
+                         CONTEXT *ctx, /* current mailbox */
+                         HEADER *cur)  /* current message */
+
+int ci_send_message(int flags,      /* send mode */
+                    HEADER *msg,    /* template to use for new message */
+                    char *tempfile, /* file specified by -i or -H */
+                    CONTEXT *ctx,   /* current mailbox */
+                    HEADER *cur)    /* current message */
+
+static size_t convert_file_to(FILE *file, const char *fromcode, int ncodes,
+                              const char **tocodes, int *tocode, CONTENT *info)
+
+static size_t convert_file_from_to(FILE *file, const char *fromcodes, const char *tocodes,
+                                   char **fromcode, char **tocode, CONTENT *info)
+
+static int fold_one_header(FILE *fp, const char *tag, const char *value,
+                           const char *pfx, int wraplen, int flags)
+
+static int write_one_header(FILE *fp, int pfxw, int max, int wraplen, const char *pfx,
+                            const char *start, const char *end, int flags)
+
+int mutt_write_one_header(FILE *fp, const char *tag, const char *value,
+                          const char *pfx, int wraplen, int flags)
+
+int mutt_invoke_sendmail(ADDRESS *from, /* the sender */
+                         ADDRESS *to, ADDRESS *cc, ADDRESS *bcc, /* recips */
+                         const char *msg, /* file containing message */
+                         int eightbit)    /* message contains 8bit chars */
+
+static int _mutt_bounce_message(FILE *fp, HEADER *h, ADDRESS *to,
+                                const char *resent_from, ADDRESS *env_from)
+
+int mutt_write_multiple_fcc(const char *path, HEADER *hdr, const char *msgid,
+                            int post, char *fcc, char **finalpath)
+
+int mutt_write_fcc(const char *path, HEADER *hdr, const char *msgid, int post,
+                   char *fcc, char **finalpath)
+
+static const char *cb_format_str(char *dest, size_t destlen, size_t col, int cols,
+                                 char op, const char *src, const char *prefix,
+                                 const char *ifstring, const char *elsestring,
+                                 unsigned long data, format_flag flags)
+
+static void make_sidebar_entry(char *buf, unsigned int buflen, int width,
+                               char *box, SBENTRY *sbe)
+
+static const char *_mutt_fmt_smime_command(char *dest, size_t destlen, size_t col,
+                                           int cols, char op, const char *src,
+                                           const char *prefix, const char *ifstring,
+                                           const char *elsestring,
+                                           unsigned long data, format_flag flags)
+
+static void smime_command(char *d, size_t dlen,
+                          struct smime_command_context *cctx, const char *fmt)
+
+static pid_t smime_invoke(FILE **smimein, FILE **smimeout, FILE **smimeerr,
+                          int smimeinfd, int smimeoutfd, int smimeerrfd,
+                          const char *fname, const char *sig_fname, const char *cryptalg,
+                          const char *digestalg, const char *key, const char *certificates,
+                          const char *intermediates, const char *format)
+
+static smime_key_t *smime_get_key_by_addr(char *mailbox, short abilities,
+                                          short public, short may_ask)
+
+static int smime_handle_cert_email(char *certificate, char *mailbox, int copy,
+                                   char ***buffer, int *num)
+
+static pid_t smime_invoke_encrypt(FILE **smimein, FILE **smimeout, FILE **smimeerr,
+                                  int smimeinfd, int smimeoutfd, int smimeerrfd,
+                                  const char *fname, const char *uids)
+
+static pid_t smime_invoke_sign(FILE **smimein, FILE **smimeout, FILE **smimeerr, int smimeinfd,
+                               int smimeoutfd, int smimeerrfd, const char *fname)
+
+static pid_t smime_invoke_verify(FILE **smimein, FILE **smimeout, FILE **smimeerr,
+                                 int smimeinfd, int smimeoutfd, int smimeerrfd,
+                                 const char *fname, const char *sig_fname, int opaque)
+
+static pid_t smime_invoke_decrypt(FILE **smimein, FILE **smimeout,
+                                  FILE **smimeerr, int smimeinfd, int smimeoutfd,
+                                  int smimeerrfd, const char *fname)
+
+int mutt_smtp_send(const ADDRESS *from, const ADDRESS *to, const ADDRESS *cc,
+                   const ADDRESS *bcc, const char *msgfile, int eightbit)
+
+static const char *status_format_str(char *buf, size_t buflen, size_t col, int cols,
+                                     char op, const char *src, const char *prefix,
+                                     const char *ifstring, const char *elsestring,
+                                     unsigned long data, format_flag flags)
+
+static const char *status_format_str(char *buf, size_t buflen, size_t col, int cols,
+                                     char op, const char *src, const char *prefix,
+                                     const char *ifstring, const char *elsestring,
+                                     unsigned long data, format_flag flags)
+
+static void _menu_status_line(char *buf, size_t buflen, size_t col, int cols,
+                              MUTTMENU *menu, const char *p)
+

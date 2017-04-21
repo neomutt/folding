@@ -1,0 +1,37 @@
+void mutt_FormatString(char *dest,     /* output buffer */
+                       size_t destlen, /* output buffer len */
+                       size_t col, /* starting column (nonzero when called recursively) */
+                       int cols,           /* maximum columns */
+                       const char *src,    /* template string */
+                       format_t *callback, /* callback for processing */
+                       unsigned long data, /* callback data */
+                       format_flag flags)  /* callback flags */
+
+void mutt_FormatString(char *dest, size_t destlen, size_t col, int cols, const char *src, format_t *callback, unsigned long data, format_flag flags)
+
+void mutt_FormatString(1,2,3,4,5,6,7,8)
+
+void mutt_FormatString(,,,,,,,)
+
+// Number of args (25)
+void mutt_FormatString(8)
+
+// Full args (149)
+void mutt_FormatString(char *dest, size_t destlen, size_t col, int cols, const char *src, format_t *callback, unsigned long data, format_flag flags)
+
+// Names + pointers (79)
+void mutt_FormatString(*dest, destlen, col, cols, *src, *callback, data, flags)
+
+// Plain names (76)
+void mutt_FormatString(dest, destlen, col, cols, src, callback, data, flags)
+
+// Plain names, short (69)
+void mutt_FormatString(dest,destlen,col,cols,src,callback,data,flags)
+
+// Types (105)
+void mutt_FormatString(char *, size_t, size_t, int, const char *, format_t *, unsigned long, format_flag)
+
+// Types, short (93)
+void mutt_FormatString(char*,size_t,size_t,int,constchar*,format_t*,unsignedlong,format_flag)
+
+// vim:syn=c

@@ -1,0 +1,6 @@
+static pid_t smime_invoke(FILE **smimein, FILE **smimeout, FILE **smimeerr, int smimeinfd, int smimeoutfd, int smimeerrfd, const char *fname, const char *sig_fname, const char *cryptalg, const char *digestalg, const char *key, const char *certificates, const char *intermediates, const char *format)
+
+// 14 args, 152 cols
+○ pid_t smime_invoke(smimein,smimeout,smimeerr,smimeinfd,smimeoutfd,smimeerrfd,fname,sig_fname,cryptalg,digestalg,key,certificates,intermediates,format)
+
+// vim:syn=c
