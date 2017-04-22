@@ -1,27 +1,27 @@
--+    ●  cb_format_str - Create the string to show in the sidebar
-|-    static const char *cb_format_str(char *dest, size_t destlen, size_t col, int cols,
-||                                     char op, const char *src, const char *prefix,
-||                                     const char *ifstring, const char *elsestring,
-||                                     unsigned long data, format_flag flags)
+--+ ●  cb_format_str - Create the string to show in the sidebar
+|-  static const char *cb_format_str(char *dest, size_t destlen, size_t col, int cols,
+||                                   char op, const char *src, const char *prefix,
+||                                   const char *ifstring, const char *elsestring,
+||                                   unsigned long data, format_flag flags)
+|   {
+|     SBENTRY *sbe = (SBENTRY *) data;
+|     unsigned int optional;
+|     char fmt[STRING];
+|
+|     switch (op)
 |     {
-|       SBENTRY *sbe = (SBENTRY *) data;
-|       unsigned int optional;
-|       char fmt[STRING];
-|
-|       switch (op)
-|       {
-|         case 'B':
-|-          /* This comment
-||           * deserves
-||           * more than
-||           * one line
-||           */
-|           mutt_format_s(dest, destlen, prefix, sbe->box);
-|           break;
-|
-|       }
-|
-|       return src;
+|       case 'B':
+|-        /* This comment
+||         * deserves
+||         * more than
+||         * one line
+||         */
+|         mutt_format_s(dest, destlen, prefix, sbe->box);
+|         break;
 |     }
 |
+|     return src;
+|   }
+|
+
 
