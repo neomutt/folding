@@ -248,45 +248,44 @@ endfunction
 
 
 function! neomutt_fold#FoldText (lnum)
-	return 'hello'
-	" let prev = getline (a:lnum - 1)
-	" let line = getline (a:lnum)
-	" let next = getline (a:lnum + 1)
-	" let nex2 = getline (a:lnum + 2)
-	" let nex3 = getline (a:lnum + 3)
+	let prev = getline (a:lnum - 1)
+	let line = getline (a:lnum)
+	let next = getline (a:lnum + 1)
+	let nex2 = getline (a:lnum + 2)
+	let nex3 = getline (a:lnum + 3)
 
-	" if (line =~ "^#include.*")
-	" 	let s = v:foldend - v:foldstart
-	" 	return s:FoldInclude (line, s)
-	" endif
+	if (line =~ "^#include.*")
+		let s = v:foldend - v:foldstart
+		return s:FoldInclude (line, s)
+	endif
 
-	" if ((line =~ '^/\* Copyright.*') || (next =~ '^ \* Copyright.*'))
-	" 	let text = s:FoldCopyright (a:lnum)
-	" 	return text
-	" endif
+	if ((line =~ '^/\* Copyright.*') || (next =~ '^ \* Copyright.*'))
+		let text = s:FoldCopyright (a:lnum)
+		return text
+	endif
 
-	" if ((line =~ '^public:') || (line =~ '^protected:') || (line =~ '^private:'))
-	" 	if (line =~ '^\i\+:\s*//.*')
-	" 		return substitute (line, ':.*// *', ': ', '')
-	" 	elseif (next =~ '^\s\+//.*')
-	" 		return line . substitute (next, '^\s\+//\s*', ' ', '')
-	" 	else
-	" 		return substitute (line, ':.*', ': ', '')
-	" 	endif
-	" endif
+	if ((line =~ '^public:') || (line =~ '^protected:') || (line =~ '^private:'))
+		if (line =~ '^\i\+:\s*//.*')
+			return substitute (line, ':.*// *', ': ', '')
+		elseif (next =~ '^\s\+//.*')
+			return line . substitute (next, '^\s\+//\s*', ' ', '')
+		else
+			return substitute (line, ':.*', ': ', '')
+		endif
+	endif
 
-	" if (line =~ '^/\*\*$')
-	" 	" Function block
-	" 	let next = substitute (next, '^\s\+\*\s*', '', '')
-	" 	let next = substitute (next, '\v<(struct|enum)> *', '', '')
-	" 	let icon = s:FoldGetFunctionIcon (v:foldstart+1)
-	" 	return icon . ' ' . next
-	" endif
+	if (line =~ '^/\*\*$')
+		" Function block
+		let next = substitute (next, '^\s\+\*\s*', '', '')
+		let next = substitute (next, '\v<(struct|enum)> *', '', '')
+		let icon = s:FoldGetFunctionIcon (v:foldstart+1)
+		return icon . ' ' . next
+	endif
 
-	" if (line =~ '^\s*/\*.*')
-	" 	return s:FoldComment (a:lnum)
-	" endif
+	if (line =~ '^\s*/\*.*')
+		return s:FoldComment (a:lnum)
+	endif
 
-	" return s:FoldFunction (a:lnum)
+	return s:FoldFunction (a:lnum)
 endfunction
 
