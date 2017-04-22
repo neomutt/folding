@@ -1,0 +1,20 @@
+-+    ●  cb_format_str - Create the string to show in the sidebar
+|+    cb_format_str(dest,destlen,col,cols,op,src,prefix,ifstring,elsestring,data,flags)
+|     {
+|       SBENTRY *sbe = (SBENTRY *) data;
+|       unsigned int optional;
+|       char fmt[STRING];
+|
+|       switch (op)
+|       {
+|         case 'B':
+|+          // This comment deserves more than one line
+|           mutt_format_s(dest, destlen, prefix, sbe->box);
+|           break;
+|
+|       }
+|
+|       return src;
+|     }
+|
+
