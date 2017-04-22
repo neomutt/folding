@@ -162,92 +162,88 @@ function! neomutt_fold#FoldLevel (lnum)
 	let nex4 = getline (a:lnum + 4)
 	let nex5 = getline (a:lnum + 5)	" enough for 6 lines of preamble
 
-	wibble
-
 	if ((prev == "") && (line =~ '^\S.*(.*') && ((next == '{') || (nex2 == '{') || (nex3 == '{') || (nex4 == '{')))
 		let level = 'a1'
 	endif
 
-	return '='
+	let prev = substitute (prev, '/\*[^*]*\*/', '', '')
+	if ((prev[0] == '#') && (line[0] != '#'))
+		let prev = substitute (prev, '#\(if\|else\|endif\).*', '', '')
+	endif
 
-	" let prev = substitute (prev, '/\*[^*]*\*/', '', '')
-	" if ((prev[0] == '#') && (line[0] != '#'))
-	" 	let prev = substitute (prev, '#\(if\|else\|endif\).*', '', '')
-	" endif
+	" Ignore one-line C comments
+	if (line =~ '^.*/\*\*<.*$')
+		return '='
+	endif
+	if (line =~ '^\s*/\*.*\*/.*$')
+		return '='
+	endif
 
-	" " Ignore one-line C comments
-	" if (line =~ '^.*/\*\*<.*$')
-	" 	return '='
-	" endif
-	" if (line =~ '^\s*/\*.*\*/.*$')
-	" 	return '='
-	" endif
+	let line = substitute (line, '\s*/\*[^*]*\*/\s*', '', '')
 
-	" let line = substitute (line, '\s*/\*[^*]*\*/\s*', '', '')
+	if ((line =~ '^template.*') && (nex3 =~ '^{$'))
+		let level = 'a1'
 
-	" if ((line =~ '^template.*') && (nex3 =~ '^{$'))
-	" 	let level = 'a1'
+	elseif ((prev == "") && (line =~ '^\S.*(.*') && ((next == '{') || (nex2 == '{') || (nex3 == '{') || (nex4 == '{')))
+		let level = 'a1'
 
-	" elseif ((prev == "") && (line =~ '^\S.*(.*') && ((next == '{') || (nex2 == '{') || (nex3 == '{') || (nex4 == '{')))
-	" 	let level = 'a1'
+	elseif ((prev == "") && (line != "") && (next =~ '.*(.*') && (nex2 == '{'))
+		let level = 'a1'
 
-	" elseif ((prev == "") && (line != "") && (next =~ '.*(.*') && (nex2 == '{'))
-	" 	let level = 'a1'
+	elseif ((prev == "") && (line =~ '^.* \i\+\s*=\s*{$'))
+		let level = 'a1'
 
-	" elseif ((prev == "") && (line =~ '^.* \i\+\s*=\s*{$'))
-	" 	let level = 'a1'
+	" Very specific comment blocks
+	elseif (line =~ '^/\* Copyright.*')
+		let level = '>4'
 
-	" " Very specific comment blocks
-	" elseif (line =~ '^/\* Copyright.*')
-	" 	let level = '>4'
+	elseif (line =~ '^/\*\*$')
+		let level = '>2'
 
-	" elseif (line =~ '^/\*\*$')
-	" 	let level = '>2'
+	elseif (line =~ '^\s*/\*.*$')
+		let level = 'a1'
 
-	" elseif (line =~ '^\s*/\*.*$')
-	" 	let level = 'a1'
+	elseif (line =~ '/\*\( .*\)\?$')
+		let level = 'a1'
+	elseif (line =~ '/\*\s')
+		let level = 'a1'
 
-	" elseif (line =~ '/\*\( .*\)\?$')
-	" 	let level = 'a1'
-	" elseif (line =~ '/\*\s')
-	" 	let level = 'a1'
+	elseif ((prev == "") && (line =~ '^#include.*'))
+		let level = '>3'
 
-	" elseif ((prev == "") && (line =~ '^#include.*'))
-	" 	let level = '>3'
+	elseif ((prev =~ '^#include.*') && (line == ""))
+		if (next =~ '^#include.*')
+			let level = '<3'
+		else
+			let level = 0
+		endif
 
-	" elseif ((prev =~ '^#include.*') && (line == ""))
-	" 	if (next =~ '^#include.*')
-	" 		let level = '<3'
-	" 	else
-	" 		let level = 0
-	" 	endif
+	elseif ((line =~ '^#include.*') && (next == "") && (nex2 !~ '^#include'))
+		let level = '<1'
 
-	" elseif ((line =~ '^#include.*') && (next == "") && (nex2 !~ '^#include'))
-	" 	let level = '<1'
+	elseif ((prev =~ '^ \*/') && (a:lnum < 20) && (getline(1) =~? '^/\* Copyright.*'))
+		let level = '<1'
 
-	" elseif ((prev =~ '^ \*/') && (a:lnum < 20) && (getline(1) =~? '^/\* Copyright.*'))
-	" 	let level = '<1'
+	elseif (line =~ '\*/')
+		let level = 's1'
 
-	" elseif (line =~ '\*/')
-	" 	let level = 's1'
+	elseif ((line[0] == '}') && (next =~ "#endif.*"))
+		let level = '<1'
 
-	" elseif ((line[0] == '}') && (next =~ "#endif.*"))
-	" 	let level = '<1'
+	elseif ((prev =~ '^}') && (line == ""))
+		let level = '<1'
 
-	" elseif ((prev =~ '^}') && (line == ""))
-	" 	let level = '<1'
+	elseif ((line =~ '^public:') || (line =~ '^protected:') || (line =~ '^private:'))
+		let level = 'a1'
+	elseif ((line != '{') && ((next =~ '^public:') || (next =~ '^protected:') || (next =~ '^private:')))
+		let level = 's1'
+	" elseif ((v:foldlevel == 1) && (line =~ '^};$'))
+	" 	let level = 0
 
-	" elseif ((line =~ '^public:') || (line =~ '^protected:') || (line =~ '^private:'))
-	" 	let level = 'a1'
-	" elseif ((line != '{') && ((next =~ '^public:') || (next =~ '^protected:') || (next =~ '^private:')))
-	" 	let level = 's1'
-	" " elseif ((v:foldlevel == 1) && (line =~ '^};$'))
-	" " 	let level = 0
-
-	" else
-	" 	let level = '='
-	" endif
-	" return level
+	else
+		let level = '='
+	endif
+	return level
 endfunction
 
 

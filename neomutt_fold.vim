@@ -20,12 +20,42 @@ function! neomutt_fold#FoldLevel (lnum)
 	let nex7 = getline (a:lnum + 7)
 	let nex8 = getline (a:lnum + 8)
 
-	if ((prev == "") && (line =~ '^\S.*(.*') && ((next == '{') || (nex2 == '{') || (nex3 == '{') || (nex4 == '{') || (nex5 == '{') || (nex6 == '{') || (nex7 == '{') || (nex8 == '{')))
+	" Ignore one-line C comments
+	if (line =~ '^.*/\*\*<.*$') " /**<
+		return '='
+	endif
+	if (line =~ '^\s*/\*.*\*/.*$') " /* */
+		return '='
+	endif
+
+	" Very specific comment blocks
+	if (line =~ '^/\* Copyright.*')
+		let level = '>4'
+
+	elseif (line =~ '^/\*\*$') " /**
+		let level = '>2'
+
+	elseif (line =~ '^\s*/\*.*$') " /*
+		let level = 'a1'
+
+	elseif (line =~ '/\*\( .*\)\?$')
+		let level = 'a1'
+	elseif (line =~ '/\*\s')
+		let level = 'a1'
+
+	elseif ((prev == "") && (line =~ '^\S.*(.*') && ((next == '{') || (nex2 == '{') || (nex3 == '{') || (nex4 == '{') || (nex5 == '{') || (nex6 == '{') || (nex7 == '{') || (nex8 == '{')))
 		let level = '>1'
 	elseif ((prev[0] == '}') && (line == ''))
 	 	let level = '<1'
 	else
 		let level = '='
+
+	elseif ((prev =~ '^ \*/') && (a:lnum < 20) && (getline(1) =~? '^/\* Copyright.*'))
+		let level = '<1'
+
+	elseif (line =~ '\*/')
+		let level = 's1'
+
 	endif
 
 	return level
@@ -82,4 +112,5 @@ endfunction
 set foldmethod=expr
 set foldexpr=neomutt_fold#FoldLevel(v:lnum)
 set foldtext=neomutt_fold#FoldText(v:foldstart)
+set foldlevel=4
 
