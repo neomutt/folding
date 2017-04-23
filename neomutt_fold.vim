@@ -62,6 +62,9 @@ function! neomutt_fold#FoldLevel (lnum)
 		return '='
 	endif
 	" if (line =~ '^\s*/\*.*\*/.*$') " /* */
+	if (line =~ '^/\*.*\*/$') " /* */
+		return '='
+	endif
 	if (line =~ '/\*.*\*/$') " /* */
 		let line = substitute (line, '\s\+/\*.*\*/', '', 'g')
 	endif
@@ -319,5 +322,5 @@ endfunction
 set foldmethod=expr
 set foldexpr=neomutt_fold#FoldLevel(v:lnum)
 set foldtext=neomutt_fold#FoldText(v:foldstart)
-set foldlevel=0
+set foldlevel=3
 
