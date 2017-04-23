@@ -13,6 +13,7 @@ let s:prefix_comment    = '--> '
 let s:prefix_function   = '●'
 let s:prefix_array      = '□'
 let s:prefix_struct     = '⧋'
+let s:prefix_union      = '∪'
 let s:prefix_enum       = '☰'
 let s:abbreviation      = '...'
 
@@ -97,7 +98,7 @@ function! neomutt_fold#FoldLevel (lnum)
 	elseif (line =~ '^\S.*(.*)$')
 		let level = '2'
 
-	elseif (line =~ '\v^(enum|struct|union)')
+	elseif (line =~ '\v^(typedef )*(enum|struct|union)')
 		return '1'
 
 	elseif ((prev == "") && (next == '{'))
@@ -228,6 +229,8 @@ function! s:FoldGetFunctionIcon (lnum)
 			return s:prefix_enum
 		elseif (line =~ '\v^(typedef )*struct.*')
 			return s:prefix_struct
+		elseif (line =~ '\v^(typedef )*union.*')
+			return s:prefix_union
 		elseif (line =~ '^__attribute__.*')
 			continue
 		elseif (line =~ '^\i\+\s*(.*')
@@ -266,7 +269,10 @@ function! neomutt_fold#FoldText (lnum)
 		let line = substitute (line, ' = {', '', '')
 		let line = substitute (line, '^static *', '', '')
 		let line = substitute (line, '^const *', '', '')
+		let line = substitute (line, '^typedef *', '', '')
+		let line = substitute (line, '^enum *', '', '')
 		let line = substitute (line, '^struct *', '', '')
+		let line = substitute (line, '^union *', '', '')
 		if (line =~ '\]$')
 			let line = s:prefix_array . ' ' . line
 		else
@@ -291,11 +297,20 @@ function! neomutt_fold#FoldText (lnum)
 	endif
 
 	if ((prev == '') && (line !~ '^\S.*(.*$'))
-		" Function with no comment block
+		" no comment block
 		let icon = s:FoldGetFunctionIcon (v:foldstart)
-		let line = substitute (line, '\v^(struct|enum|union) *', '', '')
-		if (line == '')
+		let line = substitute (line, ' {$', '', '')
+		if (line =~ '^typedef')
+			let name = getline(v:foldend - 1)
+			let name = substitute (name, '} \(\i\+\);', '\1', '')
+		else
+			let name = ''
+		endif
+		let line = substitute (line, '\v^(typedef )*(struct|enum|union) *', '', '')
+		if ((line == '') && (name == ''))
 			let line = 'anonymous'
+		else
+			let line = name
 		endif
 		return icon . ' ' . line
 	endif
@@ -322,5 +337,5 @@ endfunction
 set foldmethod=expr
 set foldexpr=neomutt_fold#FoldLevel(v:lnum)
 set foldtext=neomutt_fold#FoldText(v:foldstart)
-set foldlevel=3
+set foldlevel=0
 
