@@ -15,6 +15,7 @@ let s:prefix_array      = '□'
 let s:prefix_struct     = '⧋'
 let s:prefix_union      = '∪'
 let s:prefix_enum       = '☰'
+let s:prefix_define     = '♯'
 let s:abbreviation      = '...'
 
 let s:prefix_copyright  = '© Copyright'
@@ -46,6 +47,16 @@ function! neomutt_fold#FoldLevel (lnum)
 	let nex6 = getline (a:lnum + 6)
 	let nex7 = getline (a:lnum + 7)
 	let nex8 = getline (a:lnum + 8)
+
+	if (line =~ '^#define.*\\$')
+		return '>2'
+	elseif ((line == '') && (pre2 =~ '\\$'))
+		return '<1'
+	endif
+
+	if (line =~ '\\$')
+		return '='
+	endif
 
 	if ((prev == "") && (line =~ '^#include'))
 		return '3'
@@ -152,6 +163,8 @@ function! s:FoldFunction (lnum)
 	endif
 
 	let prev = getline (a:lnum - 1)
+	let prev = substitute (prev, '\s*/\*.\{-\}\*/$', '', '')
+	let prev = substitute (prev, '#.*', '', '')
 	if ((s:neo_show_name == 0) && (prev != ''))
 		let func = substitute (func, '\i\+(', '  (', '')
 	endif
@@ -265,6 +278,11 @@ function! neomutt_fold#FoldText (lnum)
 		return icon . ' ' . next
 	endif
 
+	if (line =~ '^#define')
+		let line = substitute (line, '#define \(\i\+\)\((.\{-\})\)*.*', '\1\2', '')
+		return s:prefix_define . line
+	endif
+
 	if (line =~ ' = {$')
 		let line = substitute (line, ' = {', '', '')
 		let line = substitute (line, '^static *', '', '')
@@ -309,7 +327,7 @@ function! neomutt_fold#FoldText (lnum)
 		let line = substitute (line, '\v^(typedef )*(struct|enum|union) *', '', '')
 		if ((line == '') && (name == ''))
 			let line = 'anonymous'
-		else
+		elseif (name != '')
 			let line = name
 		endif
 		return icon . ' ' . line
@@ -338,4 +356,4 @@ set foldmethod=expr
 set foldexpr=neomutt_fold#FoldLevel(v:lnum)
 set foldtext=neomutt_fold#FoldText(v:foldstart)
 set foldlevel=0
-
+hi foldcolumn guibg=#303030
