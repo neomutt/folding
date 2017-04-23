@@ -3,11 +3,11 @@
 let s:function_global   = '●'
 let s:function_static   = '○'
 
-let s:neo_show_prefix = 0
+let s:neo_show_icon   = 1
 let s:neo_show_name   = 0
 let s:neo_show_args   = 1
 let s:neo_show_return = 0
-let s:neo_show_lines  = 0
+let s:neo_show_lines  = 1
 
 let s:prefix_comment    = '--> '
 let s:prefix_function   = '●'
@@ -18,12 +18,23 @@ let s:abbreviation      = '...'
 
 let s:prefix_copyright  = '© Copyright'
 
-let s:function_method   = '●'
 let s:function_local    = '○'
 " let s:function_static   = '∗'
 let s:function_static   = '○'
 
+function! s:FoldCopyright (lnum)
+	let line = s:prefix_copyright
+
+	if ((s:neo_show_lines == 1) && (v:foldlevel > 2))
+		let num = v:foldend - v:foldstart
+		let line = line . ' {' . num . '}'
+	endif
+
+	return line
+endfunction
+
 function! neomutt_fold#FoldLevel (lnum)
+	let pre2 = getline (a:lnum - 2)
 	let prev = getline (a:lnum - 1)
 	let line = getline (a:lnum)
 	let next = getline (a:lnum + 1)
@@ -35,6 +46,12 @@ function! neomutt_fold#FoldLevel (lnum)
 	let nex7 = getline (a:lnum + 7)
 	let nex8 = getline (a:lnum + 8)
 
+	if ((prev == "") && (line =~ '^#include'))
+		return '3'
+	elseif ((line == '') && ((prev =~ '^#include') || ((prev =~ '#endif') && (pre2 =~ '^#include'))))
+		return '0'
+	endif
+
 	" Ignore preprocessor
 	if (line =~ '^#') " #
 		return '='
@@ -44,8 +61,9 @@ function! neomutt_fold#FoldLevel (lnum)
 	if (line =~ '^.*/\*\*<.*$') " /**<
 		return '='
 	endif
-	if (line =~ '^\s*/\*.*\*/.*$') " /* */
-		return '='
+	" if (line =~ '^\s*/\*.*\*/.*$') " /* */
+	if (line =~ '/\*.*\*/$') " /* */
+		let line = substitute (line, '\s\+/\*.*\*/', '', 'g')
 	endif
 
 	" Very specific comment blocks
@@ -59,7 +77,7 @@ function! neomutt_fold#FoldLevel (lnum)
 		let level = 'a1'
 
 	elseif (line =~ ' = {$')
-		let level = '>1'
+		let level = '1'
 	" elseif ((prev =~ ',$') && (line == '};'))
 	elseif (prev == '};')
 		let level = '<1'
@@ -76,6 +94,9 @@ function! neomutt_fold#FoldLevel (lnum)
 	elseif (line =~ '^\S.*(.*)$')
 		let level = '2'
 
+	elseif (line =~ '\v^(enum|struct|union)')
+		return '1'
+
 	elseif ((prev == "") && (next == '{'))
 		let level = 'a1'
 
@@ -86,7 +107,7 @@ function! neomutt_fold#FoldLevel (lnum)
 	 	let level = '<1'
 
 	elseif ((line =~ '^ \*/') && (a:lnum < 20))
-		let level = '<1'
+		let level = '<3'
 
 	elseif (line =~ '\*/')
 		let level = '<2'
@@ -182,21 +203,14 @@ function! s:FoldComment (lnum)
 	return result
 endfunction
 
-function! s:FoldInclude (line, count)
-	if (&foldlevel < 2)
-		return '#include'
+function! s:FoldInclude (linenum, count)
+	let line = '#include'
+	if ((s:neo_show_lines == 1) && (v:foldlevel > 2))
+		let num = v:foldend - v:foldstart
+		let line = line . ' {' . num . '}'
 	endif
 
-	if (a:line =~ '^#include ".*')
-		let text = '""'
-	elseif (a:line =~ '^#include <.*\.h>')
-		let text = '<h>'
-	else
-		let text = '<>'
-	endif
-
-	let text = '#include ' . text . ' (' . a:count . ')'
-	return text
+	return line
 endfunction
 
 function! s:FoldGetFunctionIcon (lnum)
@@ -213,12 +227,6 @@ function! s:FoldGetFunctionIcon (lnum)
 			return s:prefix_struct
 		elseif (line =~ '^__attribute__.*')
 			continue
-		elseif (line =~ '^\i\+::\~*\i\+\s*(.*')
-			return s:function_method
-		elseif (line =~ '^\i\+::operator.*')
-			return s:function_method
-		elseif (line =~ '^operator.*')
-			return s:function_local
 		elseif (line =~ '^\i\+\s*(.*')
 			return s:function_local
 		endif
@@ -232,11 +240,22 @@ function! neomutt_fold#FoldText (lnum)
 	let line = getline (a:lnum)
 	let next = getline (a:lnum + 1)
 
+	if ((line =~ '^/\* Copyright.*') || (next =~ '^ \* Copyright.*'))
+		let text = s:FoldCopyright (a:lnum)
+		return text
+	endif
+
 	if (line =~ '^/\*\*$')
 		" Function block
 		let next = substitute (next, '^\s\+\*\s*', '', '')
 		let next = substitute (next, '\v<(struct|enum)> *', '', '')
 		let icon = s:FoldGetFunctionIcon (v:foldstart+1)
+
+		if (s:neo_show_lines == 1)
+			let num = v:foldend - v:foldstart
+			let next = next . ' {' . num . '}'
+		endif
+
 		return icon . ' ' . next
 	endif
 
@@ -244,17 +263,34 @@ function! neomutt_fold#FoldText (lnum)
 		let line = substitute (line, ' = {', '', '')
 		let line = substitute (line, '^static *', '', '')
 		let line = substitute (line, '^const *', '', '')
-		let icon = s:FoldGetFunctionIcon (v:foldstart+1)
-		return icon . ' ' . line
+		let line = substitute (line, '^struct *', '', '')
+		if (line =~ '\]$')
+			let line = s:prefix_array . ' ' . line
+		else
+			let line = s:prefix_struct . ' ' . line
+		endif
+
+		if (s:neo_show_lines == 1)
+			let num = v:foldend - v:foldstart
+			let line = line . ' {' . num . '}'
+		endif
+
+		return line
+	endif
+
+	if (line =~ '^#include')
+		let num = v:foldend - v:foldstart
+		return s:FoldInclude (a:lnum, num)
 	endif
 
 	if (line =~ '^\s*/\*.*')
 		return s:FoldComment (a:lnum)
 	endif
 
-	if (prev == '')
-		let icon = s:FoldGetFunctionIcon (a:lnum)
-		let line = substitute (line, '\v<(struct|enum)> *', '', '')
+	if ((prev == '') && (line !~ '^\S.*(.*$'))
+		" Function with no comment block
+		let icon = s:FoldGetFunctionIcon (v:foldstart)
+		let line = substitute (line, '\v^(struct|enum|union) *', '', '')
 		if (line == '')
 			let line = 'anonymous'
 		endif
@@ -263,15 +299,15 @@ function! neomutt_fold#FoldText (lnum)
 
 	let line = s:FoldFunction(a:lnum)
 
-	" if (s:neo_show_prefix == 1)
-	" 	if (getline (a:lnum) =~ '^static.*')
-	" 		let line = s:function_static . ' ' . line
-	" 	else
-	" 		let line = s:function_global . ' ' . line
-	" 	endif
-	" endif
+	if (s:neo_show_icon == 1)
+		if (getline (a:lnum) =~ '^static.*')
+			let line = s:function_static . ' ' . line
+		else
+			let line = s:function_global . ' ' . line
+		endif
+	endif
 
-	if (s:neo_show_lines == 1)
+	if ((s:neo_show_lines == 1) && (v:foldlevel < 2))
 		let num = v:foldend - v:foldstart
 		let line = line . ' {' . num . '}'
 	endif
@@ -283,5 +319,5 @@ endfunction
 set foldmethod=expr
 set foldexpr=neomutt_fold#FoldLevel(v:lnum)
 set foldtext=neomutt_fold#FoldText(v:foldstart)
-set foldlevel=4
+set foldlevel=0
 

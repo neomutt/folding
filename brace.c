@@ -500,13 +500,6 @@ const char *context_req_chars[] = {
         [RANGE_K_BARE] = ".",
 };
 
-HashAlgorithms[] = {
-    {1, "pgp-md5"},     {2, "pgp-sha1"},     {3, "pgp-ripemd160"},
-    {5, "pgp-md2"},     {6, "pgp-tiger192"}, {7, "pgp-haval-5-160"},
-    {8, "pgp-sha256"},  {9, "pgp-sha384"},   {10, "pgp-sha512"},
-    {11, "pgp-sha224"}, {-1, NULL},
-};
-
 static const pop_auth_t pop_authenticators[] = {
     {pop_auth_sasl, NULL}, {pop_auth_apop, "apop"}, {pop_auth_user, "user"}, {NULL, NULL},
 };

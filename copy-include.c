@@ -1,4 +1,24 @@
 /**
+ * Copyright (C) 1996-2002,2007,2010,2012-2013 Michael R. Elkins <me@mutt.org>
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include "config.h"
+#include <ctype.h>
+#include "mutt_regex.h"
+#include "sort.h"
+#ifdef USE_SIDEBAR
+#include "sidebar.h"
+#endif
+
+static const char *cb_format_str(char *dest, size_t destlen, size_t col, int cols)
+{
+  return src;
+}
+
+/**
  * cb_format_str - Create the string to show in the sidebar
  * @dest:        Buffer in which to save string
  * @destlen:     Buffer length
@@ -28,40 +48,6 @@ static const char *cb_format_str(char *dest, size_t destlen, size_t col, int col
       break;
   }
 
-  return src;
-}
-
-
-/**
- * cb_format_str - Create the string to show in the sidebar
- */
-static const char *cb_format_str(char *dest, size_t destlen, size_t col, int cols)
-{
-  return src;
-}
-
-/**
- * struct nm_hdrdata - NotMuch data attached to an email
- *
- * This stores all the NotMuch data associated with an email.
- *
- * @sa HEADER#data, MUTT_MBOX
- */
-struct nm_hdrdata
-{
-  char *folder; /**< Location of the email */
-  char *tags;
-  char *tags_transformed;
-  struct nm_hdrtag *tag_list;
-  char *oldpath;
-  char *virtual_id; /**< Unique NotMuch Id */
-  int magic;        /**< Type of mailbox the email is in */
-};
-
-
-/* cb_format_str - Create the string to show in the sidebar */
-static const char *cb_format_str(char *dest, size_t destlen, size_t col, int cols)
-{
   return src;
 }
 
