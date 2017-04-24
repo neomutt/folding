@@ -82,48 +82,46 @@ function! neomutt_fold#FoldLevel (lnum)
 
 	" Very specific comment blocks
 	if (line =~ '^/\* Copyright.*')
-		let level = '>4'
+		return '>4'
 
 	elseif (line =~ '^/\*\*$') " /**
-		let level = '>3'
+		return '>3'
 
 	elseif (line =~ '^\s*/\*.*$') " /*
-		let level = 'a1'
+		return 'a1'
 
 	elseif (line =~ ' = {$')
-		let level = '1'
+		return '1'
 	elseif (prev == '};')
-		let level = '<1'
+		return '<1'
 
 	elseif ((line =~ '^\S.*(.*[^)]$') && ((next == '{') || (nex2 == '{') || (nex3 == '{') || (nex4 == '{') || (nex5 == '{') || (nex6 == '{') || (nex7 == '{') || (nex8 == '{')))
-		let level = '>2'
+		return '>2'
 
 	elseif (line =~ '^\S.*(.*)$')
-		let level = '2'
+		return '2'
 
 	elseif (line =~ '\v^(typedef )*(enum|struct|union)')
 		return '1'
 
 	elseif ((prev == "") && (next == '{'))
-		let level = 'a1'
+		return 'a1'
 
 	elseif (line == '{')
-		let level = '1'
+		return '1'
 
 	elseif ((prev[0] == '}') && (line == ''))
-	 	let level = '<1'
+	 	return '<1'
 
 	elseif ((line =~ '^ \*/') && (a:lnum < 20))
-		let level = '<3'
+		return '<3'
 
 	elseif (line =~ '\*/')
-		let level = '<2'
+		return '<2'
 
-	else
-		let level = '='
 	endif
 
-	return level
+	return '='
 endfunction
 
 function! s:FoldFunction (lnum)
