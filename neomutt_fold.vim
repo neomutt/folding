@@ -7,7 +7,7 @@ let s:neo_show_icon   = 1
 let s:neo_show_name   = 0
 let s:neo_show_args   = 1
 let s:neo_show_return = 0
-let s:neo_show_lines  = 1
+let s:neo_show_lines  = 0
 
 let s:prefix_comment    = '--> '
 let s:prefix_function   = '●'
@@ -73,7 +73,6 @@ function! neomutt_fold#FoldLevel (lnum)
 	if (line =~ '^.*/\*\*<.*$') " /**<
 		return '='
 	endif
-	" if (line =~ '^\s*/\*.*\*/.*$') " /* */
 	if (line =~ '^/\*.*\*/$') " /* */
 		return '='
 	endif
@@ -93,17 +92,10 @@ function! neomutt_fold#FoldLevel (lnum)
 
 	elseif (line =~ ' = {$')
 		let level = '1'
-	" elseif ((prev =~ ',$') && (line == '};'))
 	elseif (prev == '};')
 		let level = '<1'
 
-	" elseif (line =~ '/\*\( .*\)\?$') " /*
-	" 	let level = 'a1'
-	" elseif (line =~ '/\*\s') " /*<space>
-	" 	let level = 'a1'
-
 	elseif ((line =~ '^\S.*(.*[^)]$') && ((next == '{') || (nex2 == '{') || (nex3 == '{') || (nex4 == '{') || (nex5 == '{') || (nex6 == '{') || (nex7 == '{') || (nex8 == '{')))
-	" elseif ((line =~ '^\S.*(.*$') && ((next == '{') || (nex2 == '{') || (nex3 == '{') || (nex4 == '{') || (nex5 == '{') || (nex6 == '{') || (nex7 == '{') || (nex8 == '{')))
 		let level = '>2'
 
 	elseif (line =~ '^\S.*(.*)$')
@@ -126,13 +118,10 @@ function! neomutt_fold#FoldLevel (lnum)
 
 	elseif (line =~ '\*/')
 		let level = '<2'
-	" elseif (line =~ '\*/')
-	" 	let level = '1'
 
 	else
 		let level = '='
 	endif
-	" echomsg 'line: ' . (a:lnum-1) . ' ' . foldlevel(a:lnum-1)
 
 	return level
 endfunction
@@ -355,5 +344,5 @@ endfunction
 set foldmethod=expr
 set foldexpr=neomutt_fold#FoldLevel(v:lnum)
 set foldtext=neomutt_fold#FoldText(v:foldstart)
-set foldlevel=0
+set foldlevel=4
 hi foldcolumn guibg=#303030
